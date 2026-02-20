@@ -4,6 +4,8 @@
 # Stage 1: Build
 FROM node:20-alpine AS builder
 
+ARG NEXT_PUBLIC_API_URL
+
 WORKDIR /app
 
 # Copy package files
@@ -15,7 +17,13 @@ RUN npm ci
 # Copy source code
 COPY . .
 
-# Build Next.js application
+# Copy .env file if it exists in build context
+COPY .env* ./
+
+# Create .env.local from build arguments for Next.js build
+RUN echo "NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}" > .env.local
+
+# Build Next.js application with environment variables
 RUN npm run build
 
 # Stage 2: Runtime
