@@ -25,11 +25,11 @@ export function LancamentosStats({ stats, isLoading }: Props) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-      {/* Total de Lançamentos */}
+      {/* Total de Receitas */}
       <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-gray-600 text-sm font-medium">Total de Lançamentos</p>
+            <p className="text-gray-600 text-sm font-medium">Total de Receitas</p>
             <p className="text-2xl font-bold text-gray-900 mt-1">
               {stats.totalLancamentos.toLocaleString('pt-BR')}
             </p>

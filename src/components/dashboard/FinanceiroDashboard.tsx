@@ -141,7 +141,7 @@ export default function FinanceiroDashboard() {
         />
 
         <StatCard
-          title="Transacoes"
+          title="Despesas"
           value={1.248}
           subtitle="No periodo"
           trend={{ direction: 'up', percentage: 8 }}
@@ -166,7 +166,7 @@ export default function FinanceiroDashboard() {
         <StatCard
           title="Ticket Medio"
           value="R$ 196,95"
-          subtitle="Por transacao"
+          subtitle="Por despesa"
           trend={{ direction: 'down', percentage: 2 }}
           borderColor="border-l-info-500"
           icon={
@@ -226,7 +226,7 @@ export default function FinanceiroDashboard() {
       <div>
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-gray-900">
-            Transacoes Recentes
+            Despesas Recentes
           </h3>
           <div className="flex gap-2">
             <input
@@ -243,7 +243,7 @@ export default function FinanceiroDashboard() {
         <DataTable
           columns={transactionColumns}
           data={mockTransactions}
-          emptyMessage="Nenhuma transacao encontrada"
+          emptyMessage="Nenhuma despesa encontrada"
         />
       </div>
     </div>

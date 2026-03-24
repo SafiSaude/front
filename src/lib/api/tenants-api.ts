@@ -100,7 +100,17 @@ export async function deleteTenant(id: string): Promise<void> {
 }
 
 /**
- * Validate CNPJ format
+ * Clean CNPJ - remove formatação e deixar apenas 14 dígitos
+ * @param cnpj - CNPJ com ou sem formatação
+ * @returns CNPJ limpo (14 dígitos apenas)
+ */
+export function cleanCNPJ(cnpj: string): string {
+  if (!cnpj) return cnpj;
+  return cnpj.replace(/\D/g, '');
+}
+
+/**
+ * Validate CNPJ format (with formatting)
  * @param cnpj - CNPJ string
  * @returns True if valid format, false otherwise
  */

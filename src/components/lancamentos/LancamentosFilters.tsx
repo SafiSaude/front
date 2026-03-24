@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import type { LancamentosFilters } from '@/types/lancamento';
 import { MESES } from '@/types/lancamento';
 import { BRAZILIAN_STATES } from '@/types/tenant';
+import { UserRole } from '@/types/auth';
 
 interface Props {
   filters: LancamentosFilters;
@@ -11,6 +12,7 @@ interface Props {
   tiposRepasse: string[];
   contasBancarias: { banco: string; agencia: string; conta: string }[];
   anosDisponiveis: number[];
+  userRole?: UserRole;
 }
 
 export function LancamentosFilters({
@@ -19,6 +21,7 @@ export function LancamentosFilters({
   tiposRepasse,
   contasBancarias,
   anosDisponiveis,
+  userRole,
 }: Props) {
   const [mounted, setMounted] = useState(false);
 
@@ -27,6 +30,13 @@ export function LancamentosFilters({
   }, []);
 
   if (!mounted) return null;
+
+  // Determinar se o usuário é admin (vê todos os filtros)
+  const isAdminRole = userRole && [
+    UserRole.SUPER_ADMIN,
+    UserRole.SUPORTE_ADMIN,
+    UserRole.FINANCEIRO_ADMIN,
+  ].includes(userRole);
 
   const handleAnoChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const ano = e.target.value ? parseInt(e.target.value) : undefined;
@@ -93,69 +103,74 @@ export function LancamentosFilters({
     <div className="bg-white border rounded-lg p-4 space-y-4 sticky top-4">
       <h3 className="font-semibold text-lg text-gray-900">Filtros</h3>
 
-      {/* Busca Geral */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Buscar
-        </label>
-        <input
-          type="text"
-          placeholder="Município ou entidade..."
-          value={filters.search || ''}
-          onChange={handleSearchChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
-        />
-      </div>
+      {/* FILTROS APENAS PARA ADMINS */}
+      {isAdminRole && (
+        <>
+          {/* Busca Geral */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Buscar
+            </label>
+            <input
+              type="text"
+              placeholder="Município ou entidade..."
+              value={filters.search || ''}
+              onChange={handleSearchChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+            />
+          </div>
 
-      {/* CNPJ */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          CNPJ
-        </label>
-        <input
-          type="text"
-          placeholder="00.000.000/0000-00"
-          value={filters.cnpj || ''}
-          onChange={handleCnpjChange}
-          maxLength={18}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
-        />
-        <p className="text-xs text-gray-500 mt-1">Busca exata por CNPJ</p>
-      </div>
+          {/* CNPJ */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              CNPJ
+            </label>
+            <input
+              type="text"
+              placeholder="00.000.000/0000-00"
+              value={filters.cnpj || ''}
+              onChange={handleCnpjChange}
+              maxLength={18}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+            />
+            <p className="text-xs text-gray-500 mt-1">Busca exata por CNPJ</p>
+          </div>
 
-      {/* Município */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Município
-        </label>
-        <input
-          type="text"
-          placeholder="Nome do município..."
-          value={filters.municipio || ''}
-          onChange={handleMunicipioChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
-        />
-        <p className="text-xs text-gray-500 mt-1">Busca parcial no nome</p>
-      </div>
+          {/* Município */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Município
+            </label>
+            <input
+              type="text"
+              placeholder="Nome do município..."
+              value={filters.municipio || ''}
+              onChange={handleMunicipioChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+            />
+            <p className="text-xs text-gray-500 mt-1">Busca parcial no nome</p>
+          </div>
 
-      {/* UF */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Estado (UF)
-        </label>
-        <select
-          value={filters.uf || ''}
-          onChange={handleUfChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
-        >
-          <option value="">Todos os estados</option>
-          {BRAZILIAN_STATES.map((estado) => (
-            <option key={estado.code} value={estado.code}>
-              {estado.code} - {estado.name}
-            </option>
-          ))}
-        </select>
-      </div>
+          {/* UF */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Estado (UF)
+            </label>
+            <select
+              value={filters.uf || ''}
+              onChange={handleUfChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+            >
+              <option value="">Todos os estados</option>
+              {BRAZILIAN_STATES.map((estado) => (
+                <option key={estado.code} value={estado.code}>
+                  {estado.code} - {estado.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </>
+      )}
 
       {/* Ano */}
       <div>
@@ -195,24 +210,26 @@ export function LancamentosFilters({
         </select>
       </div>
 
-      {/* Tipo de Repasse */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Tipo de Repasse
-        </label>
-        <select
-          value={filters.tpRepasse || ''}
-          onChange={handleTipoChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
-        >
-          <option value="">Todos os tipos</option>
-          {tiposRepasse.map((tipo) => (
-            <option key={tipo} value={tipo}>
-              {tipo}
-            </option>
-          ))}
-        </select>
-      </div>
+      {/* Tipo de Repasse (ADMIN ONLY) */}
+      {isAdminRole && (
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Tipo de Repasse
+          </label>
+          <select
+            value={filters.tpRepasse || ''}
+            onChange={handleTipoChange}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+          >
+            <option value="">Todos os tipos</option>
+            {tiposRepasse.map((tipo) => (
+              <option key={tipo} value={tipo}>
+                {tipo}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
 
       {/* Conta Bancária */}
       <div>

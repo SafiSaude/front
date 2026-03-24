@@ -86,7 +86,7 @@ export default function SuperAdminDashboard() {
         <StatCard
           title="Operadores"
           value={42}
-          subtitle="Processando transacoes"
+          subtitle="Processando despesas"
           trend={{ direction: 'up', percentage: 5 }}
           borderColor="border-l-gray-500"
           icon={
@@ -112,7 +112,7 @@ export default function SuperAdminDashboard() {
         />
 
         <StatCard
-          title="Transacoes"
+          title="Despesas"
           value="R$ 1.2M"
           subtitle="Volume total do mes"
           trend={{ direction: 'up', percentage: 18 }}

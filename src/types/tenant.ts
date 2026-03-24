@@ -76,14 +76,28 @@ export const CNPJ_PATTERN = /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/;
 export const CNPJ_ERROR_MESSAGE = 'CNPJ deve estar no formato 00.000.000/0000-00';
 
 /**
+ * Clean CNPJ - remove formatação e deixar apenas 14 dígitos
+ * @param cnpj - CNPJ com ou sem formatação
+ * @returns CNPJ limpo (14 dígitos apenas)
+ */
+export function cleanCNPJ(cnpj: string): string {
+  if (!cnpj) return cnpj;
+  // Remove caracteres não numéricos
+  return cnpj.replace(/\D/g, '');
+}
+
+/**
  * Format CNPJ from unformatted string
  * @param cnpj - CNPJ without formatting (14 digits)
  * @returns Formatted CNPJ (XX.XXX.XXX/XXXX-XX)
  */
 export function formatCNPJ(cnpj: string): string {
-  if (!cnpj || cnpj.length !== 14) return cnpj;
+  if (!cnpj) return cnpj;
+  // Se tem formatação, remover antes de formatar novamente
+  const cleaned = cleanCNPJ(cnpj);
+  if (cleaned.length !== 14) return cnpj;
   // 12345678000199 -> 12.345.678/0001-99
-  return cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
+  return cleaned.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
 }
 
 /**

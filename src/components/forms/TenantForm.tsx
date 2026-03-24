@@ -13,15 +13,27 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button, FormField } from '@/components/ui';
 import { Loader2 } from 'lucide-react';
-import { BRAZILIAN_STATES, formatCNPJ } from '@/types/tenant';
+import { BRAZILIAN_STATES, formatCNPJ, cleanCNPJ } from '@/types/tenant';
 
 // Validation schema
 const tenantFormSchema = z.object({
   nome: z.string().min(3, 'Nome deve ter pelo menos 3 caracteres'),
   cnpj: z
     .string()
-    .min(14, 'CNPJ inválido')
-    .regex(/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/, 'CNPJ deve estar no formato 00.000.000/0000-00'),
+    .min(1, 'CNPJ é obrigatório')
+    .transform((value) => {
+      // Limpar e validar CNPJ
+      const cleaned = cleanCNPJ(value);
+
+      // Deve ter exatamente 14 dígitos
+      if (cleaned.length !== 14) {
+        throw new Error(`CNPJ deve ter 14 dígitos (tem ${cleaned.length})`);
+      }
+
+      // Formatar: XX.XXX.XXX/XXXX-XX
+      const formatted = `${cleaned.slice(0, 2)}.${cleaned.slice(2, 5)}.${cleaned.slice(5, 8)}/${cleaned.slice(8, 12)}-${cleaned.slice(12, 14)}`;
+      return formatted;
+    }),
   emailContato: z.string().email('Email inválido'),
   cidade: z.string().optional(),
   estado: z.string().optional(),
@@ -68,14 +80,32 @@ export function TenantForm({
 
   // Format CNPJ on input
   const handleCNPJChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const formatted = formatCNPJ(e.target.value);
-    setValue('cnpj', formatted);
+    const cleaned = cleanCNPJ(e.target.value);
+    if (cleaned.length <= 14) {
+      const formatted = formatCNPJ(e.target.value);
+      setValue('cnpj', formatted);
+    }
+  };
+
+  // Format CNPJ on blur (garantir formatação ao sair do campo)
+  const handleCNPJBlur = () => {
+    const currentValue = cnpjValue || '';
+    const cleaned = cleanCNPJ(currentValue);
+    if (cleaned.length === 14) {
+      const formatted = formatCNPJ(currentValue);
+      setValue('cnpj', formatted);
+    }
   };
 
   const onSubmitForm = async (data: TenantFormData) => {
     try {
       setSubmitting(true);
-      await onSubmit(data);
+      // Limpar CNPJ antes de enviar (remover formatação para o padrão 14 dígitos)
+      const cleanedData = {
+        ...data,
+        cnpj: cleanCNPJ(data.cnpj),
+      };
+      await onSubmit(cleanedData);
     } finally {
       setSubmitting(false);
     }
@@ -112,6 +142,7 @@ export function TenantForm({
             placeholder="12.345.678/0001-00"
             {...register('cnpj')}
             onChange={handleCNPJChange}
+            onBlur={handleCNPJBlur}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:bg-gray-100"
             disabled={isLoadingAny}
           />

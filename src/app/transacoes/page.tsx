@@ -48,8 +48,8 @@ export default function TransactionsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Transações</h1>
-          <p className="text-gray-600 mt-1">Gerenciar transações do sistema</p>
+          <h1 className="text-3xl font-bold text-gray-900">Despesas</h1>
+          <p className="text-gray-600 mt-1">Gerenciar despesas do sistema</p>
         </div>
       </div>
 

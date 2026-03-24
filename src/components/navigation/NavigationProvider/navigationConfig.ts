@@ -92,14 +92,14 @@ function getSuperAdminConfig(): NavigationConfig {
       },
       {
         id: 'transacoes',
-        label: 'Transacoes',
+        label: 'Despesas',
         icon: CreditCard,
         path: '/transacoes',
         badge: { count: 12, variant: 'warning' },
       },
       {
         id: 'lancamentos',
-        label: 'Lançamentos',
+        label: 'Receitas',
         icon: FileText,
         path: '/lancamentos',
       },
@@ -222,11 +222,11 @@ function getFinanceiroAdminConfig(): NavigationConfig {
       },
       {
         id: 'transacoes',
-        label: 'Transacoes',
+        label: 'Despesas',
         icon: CreditCard,
         path: '/transacoes',
         submenu: [
-          { label: 'Todas Transacoes', path: '/transacoes/todas' },
+          { label: 'Todas Despesas', path: '/transacoes/todas' },
           { label: 'Pendentes', path: '/transacoes/pendentes', highlight: true },
           { label: 'Aprovadas', path: '/transacoes/aprovadas' },
           { label: 'Rejeitadas', path: '/transacoes/rejeitadas' },
@@ -234,7 +234,7 @@ function getFinanceiroAdminConfig(): NavigationConfig {
       },
       {
         id: 'lancamentos',
-        label: 'Lançamentos',
+        label: 'Receitas',
         icon: FileText,
         path: '/lancamentos',
       },
@@ -304,14 +304,14 @@ function getSecretarioConfig(): NavigationConfig {
       },
       {
         id: 'transacoes',
-        label: 'Transacoes',
+        label: 'Despesas',
         icon: CreditCard,
         path: '/transacoes',
         badge: { count: 8, variant: 'warning' },
       },
       {
         id: 'lancamentos',
-        label: 'Lançamentos',
+        label: 'Receitas',
         icon: FileText,
         path: '/lancamentos',
       },
@@ -342,7 +342,7 @@ function getSecretarioConfig(): NavigationConfig {
       { id: 'novo', label: 'Novo', icon: Plus, path: '/usuarios/novo', primary: true },
       {
         id: 'transacoes-mobile',
-        label: 'Transacoes',
+        label: 'Despesas',
         icon: CreditCard,
         path: '/transacoes',
         badge: { count: 8, variant: 'warning' },
@@ -367,12 +367,12 @@ function getFinanceiroConfig(): NavigationConfig {
       },
       {
         id: 'transacoes',
-        label: 'Transacoes',
+        label: 'Despesas',
         icon: CreditCard,
         path: '/transacoes',
         badge: { count: 15, variant: 'info' },
         submenu: [
-          { label: 'Todas Transacoes', path: '/transacoes/todas' },
+          { label: 'Todas Despesas', path: '/transacoes/todas' },
           { label: 'Pendentes', path: '/transacoes/pendentes', highlight: true },
           { label: 'Aprovadas', path: '/transacoes/aprovadas' },
           { label: 'Rejeitadas', path: '/transacoes/rejeitadas' },
@@ -380,7 +380,7 @@ function getFinanceiroConfig(): NavigationConfig {
       },
       {
         id: 'lancamentos',
-        label: 'Lançamentos',
+        label: 'Receitas',
         icon: FileText,
         path: '/lancamentos',
       },
@@ -416,7 +416,7 @@ function getFinanceiroConfig(): NavigationConfig {
       { id: 'inicio', label: 'Inicio', icon: Home, path: '/dashboard' },
       {
         id: 'transacoes-mobile',
-        label: 'Transacoes',
+        label: 'Despesas',
         icon: CreditCard,
         path: '/transacoes',
         badge: { count: 15, variant: 'info' },
@@ -449,7 +449,7 @@ function getVisualizadorConfig(): NavigationConfig {
       },
       {
         id: 'lancamentos',
-        label: 'Lançamentos',
+        label: 'Receitas',
         icon: FileText,
         path: '/lancamentos',
       },
@@ -472,7 +472,7 @@ function getVisualizadorConfig(): NavigationConfig {
       { id: 'inicio', label: 'Inicio', icon: Home, path: '/dashboard' },
       {
         id: 'lancamentos-mobile',
-        label: 'Lançamentos',
+        label: 'Receitas',
         icon: FileText,
         path: '/lancamentos',
       },

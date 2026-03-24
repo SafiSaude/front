@@ -18,7 +18,7 @@ import type {
 export default function LancamentosPage() {
   // Proteção de autenticação
   useRequireAuth();
-  const { isAuthenticated, loading: authLoading } = useAuth();
+  const { isAuthenticated, loading: authLoading, user } = useAuth();
   const router = useRouter();
 
   const [lancamentos, setLancamentos] = useState<Lancamento[]>([]);
@@ -124,7 +124,7 @@ export default function LancamentosPage() {
     <div className="container mx-auto px-4 py-8">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Lançamentos de Recursos</h1>
+        <h1 className="text-3xl font-bold text-gray-900">Receitas</h1>
         <p className="text-gray-600 mt-2">
           Visualize os repasses federais da saúde do seu órgão
         </p>
@@ -150,6 +150,7 @@ export default function LancamentosPage() {
             tiposRepasse={tiposRepasse}
             contasBancarias={contasBancarias}
             anosDisponiveis={stats?.anos || []}
+            userRole={user?.role}
           />
         </div>
 

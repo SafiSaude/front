@@ -54,7 +54,7 @@ export function LancamentoDetailModal({ lancamento, isOpen, onClose }: Props) {
         {/* Header */}
         <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
           <h3 className="text-lg font-semibold text-gray-900">
-            Detalhes do Lançamento
+            Detalhes da Receita
           </h3>
           <button
             onClick={onClose}

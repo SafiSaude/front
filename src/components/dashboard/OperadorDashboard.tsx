@@ -76,7 +76,7 @@ export default function OperadorDashboard() {
     // Reset form after submission
     handleClear();
     setIsSubmitting(false);
-    alert('Transacao processada com sucesso!');
+    alert('Despesa processada com sucesso!');
   };
 
   const transactionColumns = [
@@ -123,14 +123,14 @@ export default function OperadorDashboard() {
       <div>
         <h2 className="text-2xl font-bold text-gray-900">Painel do Operador</h2>
         <p className="text-sm text-gray-500 mt-1">
-          Registro de transacoes financeiras
+          Registro de despesas financeiras
         </p>
       </div>
 
       {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <StatCard
-          title="Transacoes Hoje"
+          title="Despesas Hoje"
           value={23}
           subtitle="Processadas por voce"
           borderColor="border-l-primary-500"
@@ -175,7 +175,7 @@ export default function OperadorDashboard() {
         />
 
         <StatCard
-          title="Media por Transacao"
+          title="Media por Despesa"
           value="R$ 210,87"
           subtitle="Hoje"
           borderColor="border-l-info-500"
@@ -200,7 +200,7 @@ export default function OperadorDashboard() {
       {/* Transaction Form */}
       <div className="bg-white rounded-xl shadow-soft border border-gray-200 p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-6">
-          Nova Transacao
+          Nova Despesa
         </h3>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -314,7 +314,7 @@ export default function OperadorDashboard() {
                 name="descricao"
                 value={form.descricao}
                 onChange={handleInputChange}
-                placeholder="Descreva a transacao..."
+                placeholder="Descreva a despesa..."
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               />
             </div>
@@ -357,12 +357,12 @@ export default function OperadorDashboard() {
       {/* Recent Transactions Table */}
       <div>
         <h3 className="text-lg font-semibold text-gray-900 mb-4">
-          Minhas Transacoes Recentes
+          Minhas Despesas Recentes
         </h3>
         <DataTable
           columns={transactionColumns}
           data={mockRecentTransactions}
-          emptyMessage="Nenhuma transacao encontrada"
+          emptyMessage="Nenhuma despesa encontrada"
         />
       </div>
     </div>
